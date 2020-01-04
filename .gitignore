@@ -105,5 +105,6 @@ dist
 
 # Ignore working csv files
 /files/*.csv
+/files/output/*.csv
 
 .DS_Store
