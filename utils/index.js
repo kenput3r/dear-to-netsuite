@@ -118,7 +118,7 @@ exports.GenerateClass = (sku, name, category) => {
       {string: 'Brow Gel', subClass: 'Cosmetics'},
       {string: 'Eyeliner', subClass: 'Cosmetics'},
       {string: 'Beard', subClass: 'Beard'},
-      {string: 'Shave', subClass: 'Shave'},
+      {string: 'Shave', subClass: 'Shaving'},
       {string: 'Shaving', subClass: 'Shaving'},
       {string: 'Mustache', subClass: 'Beard'}
     ]
