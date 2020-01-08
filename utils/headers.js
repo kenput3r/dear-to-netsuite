@@ -271,3 +271,16 @@ exports.InventoryItem = [
   { id: `Shopify Product Type`, title: `Shopify Product Type` },
   { id: `Shopify Requires Shipping`, title: `Shopify Requires Shipping` }
 ];
+
+exports.ServiceItem = [
+  { id: `ExternalID`, title: `ExternalID` },
+  { id: `Item Name/Number`, title: `Item Name/Number` },
+  { id: `Display Name/Code`, title: `Display Name/Code` },
+  { id: `Vendor SKU`, title: `Vendor SKU` },
+  { id: `Subsidiary`, title: `Subsidiary` },
+  { id: `Class`, title: `Class` },
+  { id: `Manufacturer`, title: `Manufacturer` },
+  { id: `MPN`, title: `MPN` },
+  { id: `Vendor 1 Name`, title: `Vendor 1 Name` },
+  { id: `Tax Schedule`, title: `Tax Schedule` }
+];

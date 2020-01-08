@@ -56,4 +56,13 @@ const createCsvWriter = require('csv-writer').createObjectCsvWriter;
   });
   const inventory_items_array = Object.values(inventory_items);
   inventoryItemWriter.writeRecords(inventory_items_array);
+
+  //Service Items
+  const service_items = items.GetServiceItems(products);
+  const serviceItemWriter = createCsvWriter({
+    path: './files/output/ServiceItems.csv',
+    header: headers.ServiceItem
+  });
+  const service_items_array = Object.values(service_items);
+  serviceItemWriter.writeRecords(service_items_array);
 })();

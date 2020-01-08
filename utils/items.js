@@ -126,7 +126,7 @@ CreateInventoryItem = (dear_inventory_item, shopify_retail_items, shopify_wholes
     [`Replenishment Method`]: `Time Phased`,
     [`Auto-Calculate Lead Time`]: `TRUE`,
     [`Manufacturer`]: dear_inventory_item.LastSuppliedBy,
-    [`MPN`]: dear_inventory_item.SupplierProductCode,
+    [`MPN`]: dear_inventory_item.SupplierProductCode.length > 100 ? dear_inventory_item.SupplierProductCode.slice(0, 95) + '...' : dear_inventory_item.SupplierProductCode,
     [`Vendor 1 Name`]: dear_inventory_item.LastSuppliedBy,
     [`Cost Estimate Type`]: `Average Cost`,
     [`Item Weight`]: dear_inventory_item.Weight,
@@ -147,6 +147,21 @@ CreateInventoryItem = (dear_inventory_item, shopify_retail_items, shopify_wholes
     [`Shopify Retail Tags`]: sri[key] ? sri[key][`Tags`] : ``,
     [`Shopify Product Type`]: sri[key] ? sri[key][`Type`] : swi[key] ? swi[key][`Type`] : ``,
     [`Shopify Requires Shipping`]: `TRUE`
+  }
+};
+
+CreateServiceItem = (dear_inventory_item) => {
+  return {
+    [`ExternalID`]: dear_inventory_item.ProductCode,
+    [`Item Name/Number`]: dear_inventory_item.ProductCode,
+    [`Display Name/Code`]: dear_inventory_item.Name,
+    [`Vendor SKU`]: dear_inventory_item.SupplierProductCode,
+    [`Subsidiary`]: `Suavecito, Inc.`,
+    [`Class`]: `Other : Service`,
+    [`Manufacturer`]: dear_inventory_item.LastSuppliedBy,
+    [`MPN`]: dear_inventory_item.SupplierProductCode,
+    [`Vendor 1 Name`]: dear_inventory_item.LastSuppliedBy,
+    [`Tax Schedule`]: `Taxable`
   }
 };
 
@@ -271,9 +286,20 @@ exports.GetKitItems = (products, bom, shopify_retail_items, shopify_wholesale_it
 exports.GetInventoryItems = (products, shopify_retail_items, shopify_wholesale_items) => {
   const records = {};
   for(const product of products) {
-    //If the item is not a Subitem (does not belongs to a family and has a BOM)
-    if(!product[`ProductFamilySKU`] && product[`BillOfMaterial`] === 'No') {
+    //If the item is not a Subitem (does not belongs to a family) and has a BOM and is not a service item
+    if(!product[`ProductFamilySKU`] && product[`BillOfMaterial`] === 'No' && product[`Type`] === 'Stock') {
       records[product.ProductCode] = CreateInventoryItem(product, shopify_retail_items, shopify_wholesale_items);
+    }
+  }
+  return records;
+};
+
+exports.GetServiceItems = (products) => {
+  const records = {};
+  for(const product of products) {
+    //If the item is not a Subitem (does not belongs to a family and has a BOM)
+    if(product[`Type`] === 'Service') {
+      records[product.ProductCode] = CreateServiceItem(product);
     }
   }
   return records;
